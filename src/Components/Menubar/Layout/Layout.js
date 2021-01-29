@@ -21,7 +21,9 @@ class Layout extends Component {
 
 	render() {
 		return (
-			<>
+			<div
+			style={{position:'relative'}}
+			>
 				<SideDrawer
 					open={this.state.showSideDrawer}
 					closed={this.sideDrawerClosedHandler}
@@ -30,7 +32,7 @@ class Layout extends Component {
 				<div className={`hide  container ${classes.nopadd}`}>
 					<NavCategory />
 				</div>
-			</>
+			</div>
 		);
 	}
 }

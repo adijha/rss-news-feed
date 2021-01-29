@@ -12,6 +12,7 @@ function NewsList2(props) {
 	const [err, seterr] = useState(null);
 	const [loading, setloading] = useState(true);
 	const [cat, setCat] = useState(null);
+	const [recomend, setRecomend] = useState(null)
 
 	let url1 = ``;
 	if (cat === undefined || cat === null) {
@@ -23,34 +24,31 @@ function NewsList2(props) {
 	useEffect(() => {
 		setloading(true);
 
-if (props.location.state.indexOf("home") > -1) {
-setCat(null)
+		if (props.location.state.indexOf("home") > -1) {
+			setCat(null);
+		} else {
+			let activity = Object.keys(localStorage).reduce(function (obj, str) {
+				obj[str] = localStorage.getItem(str);
+				return obj;
+			}, {});
 
-} else {
-	
-	
-	
-	let activity = Object.keys(localStorage).reduce(function (obj, str) {
-	obj[str] = localStorage.getItem(str);
-	return obj;
-	}, {});
-	
-	let activityPoints = Object.values(activity)
-	let max = Math.max.apply(null, activityPoints);
-	console.log(max)
-
-	let activityKey = Object.keys(activity).forEach(function eachKey(key) {
-		// alert(key); // alerts key
-		if (key === max) {
-		return activity[key]
-	}
-	});
-console.log(activityKey);
-
-	console.log(activityPoints)
-
-}
-
+			let activityPoints = Object.values(activity);
+			console.log(activityPoints);
+			let max = Math.max.apply(null, activityPoints);
+			console.log({ max });
+			let result = "";
+			let activityKey = Object.keys(activity).forEach(function eachKey(key) {
+				console.log(activity[key], "value");
+				if (Number(activity[key]) == Number(max)) {
+					console.log("-----", key);
+					result = key;
+				}
+			});
+			console.log({ result });
+			setRecomend(result)
+			setCat(`/${result}/feed`);
+		}
+// console.log("000", props.location.state, "000");
 		setCat(props.location.state);
 	}, [props.location.state]);
 
@@ -90,43 +88,55 @@ console.log(activityKey);
 			});
 	}, [url1]);
 
+	// const getRecomendation=()=>{
+
+
+
+	// 	return <h2>{recomend}</h2>
+
+	// }
+
 	let posts = post.map((p, index) => (
-		<Link
-			className={classes.colors}
-			key={index}
-			to={{
-				pathname: `${props.location.pathname}/${index}`,
-				customObject: p,
-				state: [
-					p[0].value,
-					p[1].value,
-					p[7].value,
-					p[9].attributes.url,
-					p[3].value,
-				],
-			}}
-		>
-			<div className={`card ${classes.card}`} style={{}}>
-				<div className={classes.cardhorizontal}>
-					<div className="img-square-wrapper">
-						<img className="" src={p[9]?.attributes.url} alt="Card  cap" />
-					</div>
+		<>
+			
 
-					<div className={`card-body ${classes.cardbody}`}>
-						<h4 className="card-title">{p[0]?.value}</h4>
+			<Link
+				className={classes.colors}
+				key={index}
+				to={{
+					pathname: `${props.location.pathname}/${index}`,
+					customObject: p,
+					state: [
+						p[0].value,
+						p[1].value,
+						p[7].value,
+						p[9].attributes.url,
+						p[3].value,
+					],
+				}}
+			>
+				<div className={`card ${classes.card}`} style={{}}>
+					<div className={classes.cardhorizontal}>
+						<div className="img-square-wrapper">
+							<img className="" src={p[9]?.attributes.url} alt="Card  cap" />
+						</div>
 
-						<div className={`card-text ${classes.limit}`}>
-							{Parser(Parser(p[7]?.value))}
+						<div className={`card-body ${classes.cardbody}`}>
+							<h4 className="card-title">{p[0]?.value}</h4>
+
+							<div className={`card-text ${classes.limit}`}>
+								{Parser(Parser(p[7]?.value))}
+							</div>
 						</div>
 					</div>
+					<div className="card-footer">
+						<small className="text-muted">
+							{moment.utc(p[3].value).format("llll")}
+						</small>
+					</div>
 				</div>
-				<div className="card-footer">
-					<small className="text-muted">
-						{moment.utc(p[3].value).format("llll")}
-					</small>
-				</div>
-			</div>
-		</Link>
+			</Link>
+		</>
 	));
 
 	let rendered;
@@ -153,6 +163,15 @@ console.log(activityKey);
 
 	return (
 		<div>
+			<div
+			style={{textAlign:'center',position:'absolute',top:0,left:'20%'}}
+			>
+				{recomend && <h2
+				
+				
+				> You are interested in {recomend} category news.</h2>}
+
+			</div>
 			<div className="container">{rendered}</div>
 		</div>
 	);
