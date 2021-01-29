@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { NavLink } from "react-router-dom";
 import "./NavCategory.css";
+import Axios from "axios";
 
 export class NavCategory extends Component {
 	constructor(props) {
@@ -20,9 +21,31 @@ export class NavCategory extends Component {
 				{ type: "Technology", categoryUrl: "/technology/feed" },
 				{ type: "COVID-19", categoryUrl: "/latest-news/covid-19/feed" },
 			],
-			selectedCategory: "/home/feed",
+      selectedCategory: "/home/feed",
+      news:[]
 		};
-	}
+  }
+  
+  async getHeadline() {
+    console.log('--------')
+    try {
+      
+      let response= await Axios.get(
+          "http://newsapi.org/v2/top-headlines?country=in&apiKey=78d6e15d54654eb085f84ab26cf7179b"
+      );
+      response.data.articles.length =5
+       this.setState({ news: response.data.articles });
+       console.log(response.data.articles)
+    } catch (error) {
+      console.error(error)
+    }
+   
+}
+
+  componentDidMount() {
+    
+  this.getHeadline()
+  }
 
 	ClickHandler = (url) => {
 		this.setState({
@@ -45,6 +68,17 @@ export class NavCategory extends Component {
 		));
 		return (
 			<div>
+        <marquee
+        
+        >
+          
+
+          {this.state.news.map((theElement) => theElement.title.toString())}
+       
+        
+        
+        </marquee>
+
 				<ul className="ullist">{cat}</ul>
 
 				{/* <Newslist selectedCategory={this.state.selectedCategory} /> */}

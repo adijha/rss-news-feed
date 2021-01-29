@@ -13,6 +13,47 @@ export class SingleNews extends Component {
 	}
 	componentDidMount() {
 		console.log(this.props);
+		console.log("localstorage", Object.entries(localStorage));
+
+		console.log(window.location.href, "----");
+		if (window.location.href.indexOf("Crime") > -1) {
+			// alert("your url contains the name franky");
+			let Crime = Number(localStorage.getItem("Crime"));
+			Crime++;
+			localStorage.setItem("Crime", Crime);
+		} else if (window.location.href.indexOf("Health") > -1) {
+			let Health = Number(localStorage.getItem("Health"));
+			Health++;
+			localStorage.setItem("Health", Health);
+		} else if (window.location.href.indexOf("Entertainment") > -1) {
+			let Entertainment = Number(localStorage.getItem("Entertainment"));
+			Entertainment++;
+			localStorage.setItem("Entertainment", Entertainment);
+		} else if (window.location.href.indexOf("Sports") > -1) {
+			let Sports = Number(localStorage.getItem("Sports"));
+			Sports++;
+			localStorage.setItem("Sports", Sports);
+		} else if (window.location.href.indexOf("Buisness") > -1) {
+			let Buisness = Number(localStorage.getItem("Buisness"));
+			Buisness++;
+			localStorage.setItem("Buisness", Buisness);
+		} else if (window.location.href.indexOf("Technology") > -1) {
+			let Technology = Number(localStorage.getItem("Technology"));
+			Technology++;
+			localStorage.setItem("Technology", Technology);
+		} else if (window.location.href.indexOf("COVID-19") > -1) {
+			let COVID = Number(localStorage.getItem("COVID"));
+			COVID++;
+			localStorage.setItem("COVID", COVID);
+		} else if (window.location.href.indexOf("World") > -1) {
+			let World = Number(localStorage.getItem("World"));
+			World++;
+			localStorage.setItem("World", World);
+		} else if (window.location.href.indexOf("India") > -1) {
+			let India = Number(localStorage.getItem("India"));
+			India++;
+			localStorage.setItem("India", India);
+		}
 
 		this.setState({
 			news: this.props.location.state,
