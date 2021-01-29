@@ -13,7 +13,6 @@ export class SingleNews extends Component {
 	}
 	componentDidMount() {
 		console.log(this.props);
-		console.log("localstorage", Object.entries(localStorage));
 
 		console.log(window.location.href, "----");
 		if (window.location.href.indexOf("Crime") > -1) {

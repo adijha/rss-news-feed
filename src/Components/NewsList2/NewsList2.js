@@ -13,7 +13,7 @@ function NewsList2(props) {
 	const [loading, setloading] = useState(true);
 	const [cat, setCat] = useState(null);
 
-	let url1 = `https://cors-anywhere.herokuapp.com/https://news.abplive.com/home/feed`;
+	let url1 = ``;
 	if (cat === undefined || cat === null) {
 		url1 = `https://cors-anywhere.herokuapp.com/https://news.abplive.com/home/feed`;
 	} else {
@@ -22,6 +22,35 @@ function NewsList2(props) {
 
 	useEffect(() => {
 		setloading(true);
+
+if (props.location.state.indexOf("home") > -1) {
+setCat(null)
+
+} else {
+	
+	
+	
+	let activity = Object.keys(localStorage).reduce(function (obj, str) {
+	obj[str] = localStorage.getItem(str);
+	return obj;
+	}, {});
+	
+	let activityPoints = Object.values(activity)
+	let max = Math.max.apply(null, activityPoints);
+	console.log(max)
+
+	let activityKey = Object.keys(activity).forEach(function eachKey(key) {
+		// alert(key); // alerts key
+		if (key === max) {
+		return activity[key]
+	}
+	});
+console.log(activityKey);
+
+	console.log(activityPoints)
+
+}
+
 		setCat(props.location.state);
 	}, [props.location.state]);
 
